@@ -1,0 +1,128 @@
+{
+  "nombre": "Vicente Siña",
+  "fecha_nacimiento": "29 de julio de 1998",
+  "altura": 1.8,
+  "peso": 80.0,
+  "sexo": "M",
+  "antecedentes_medicos": {
+    "enfermedades_cronicas": "Hipertenso",
+    "historial_alergias": "Penicilina y antiinflamatorios",
+    "historial_cirugias": null,
+    "historial_medicamentos": "Losartan",
+    "historial_enfermedades_familia": null,
+    "historial_enfermedades_infecciosas": null,
+    "historial_habitos_salud": null
+  },
+  "alergias_medicamentos": {
+    "penicilina": true,
+    "sulfonamidas": null,
+    "aspirina": true,
+    "anestesicos": null,
+    "cefalosporinas": null,
+    "frutas_verduras": null,
+    "antiinflamatorios_no_esteroides": true,
+    "insulina": null,
+    "otros": null
+  },
+  "alergias_alimentos": {
+    "frutos_secos": null,
+    "mariscos": null,
+    "lacteos": true,
+    "huevos": null,
+    "trigo": null,
+    "frutas_verduras": null,
+    "soja": null,
+    "gluten": null,
+    "otros": null
+  },
+  "sintomas": {
+    "fiebre": null,
+    "tos": true,
+    "dificultad_respiratoria": true,
+    "perdida_conocimiento": null,
+    "alteraciones_sueño": null,
+    "problemas_sentidos": {
+      "vista": null,
+      "olfato": true,
+      "tacto": true,
+      "gusto": true,
+      "audicion": null
+    },
+    "inflamacion": {
+      "cabeza": null,
+      "extremidades_superiores": null,
+      "extremidades_inferiores": null,
+      "amigdalas": true,
+      "aparato_reproductor": null,
+      "abdomen": null,
+      "otros": null
+    },
+    "fatiga": true,
+    "manchas": {
+      "cabeza": true,
+      "extremidades_superiores": null,
+      "extremidades_inferiores": null,
+      "cuello": true,
+      "espalda": true,
+      "aparato_reproductor": null,
+      "abdomen": null,
+      "otros": null
+    },
+    "comezon": {
+      "cabeza": true,
+      "extremidades_superiores": null,
+      "extremidades_inferiores": null,
+      "cuello": true,
+      "espalda": null,
+      "aparato_reproductor": null,
+      "abdomen": null,
+      "otros": null
+    },
+    "dolor": {
+      "cabeza": true,
+      "extremidades": null,
+      "muscular": null,
+      "abdominal": null
+    },
+    "tiempo_sintomas": "2 - 7 días",
+    "frecuencia_sintomas": "Varias veces al día"
+  },
+  "consumo_medicamentos": {
+    "anticoagulantes": null,
+    "analgesicos": null,
+    "antidepresivos": null,
+    "antihipertensivos": true,
+    "antidiabeticos": null,
+    "estatinas": null,
+    "otros": null
+  },
+  "contacto_enfermo": {
+    "ha_tenido_contacto": true,
+    "diagnostico": null,
+    "sintomas_relacionados": null
+  },
+  "contacto_toxico": {
+    "ha_tenido_contacto": null,
+    "quimico": null,
+    "biologico": null,
+    "otro": null
+  },
+  "viaje_extranjero": {
+    "ha_viajado": true,
+    "australia": null,
+    "brasil": true,
+    "china": null,
+    "india": null,
+    "kenia": null,
+    "sudafrica": null,
+    "otros": null
+  },
+  "estado_animo": {
+    "normal": null,
+    "decaido": true,
+    "cansado": null,
+    "ansioso": null,
+    "falta_apetito": true,
+    "otros": null
+  }
+}

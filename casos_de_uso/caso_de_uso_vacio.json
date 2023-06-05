@@ -1,0 +1,128 @@
+{
+  "nombre": "",
+  "fecha_nacimiento": "",
+  "altura": 0.0,
+  "peso": 0.0,
+  "sexo": "",
+  "antecedentes_medicos": {
+    "enfermedades_cronicas": null,
+    "historial_alergias": null,
+    "historial_cirugias": null,
+    "historial_medicamentos": null,
+    "historial_enfermedades_familia": null,
+    "historial_enfermedades_infecciosas": null,
+    "historial_habitos_salud": null
+  },
+  "alergias_medicamentos": {
+    "penicilina": null,
+    "sulfonamidas": null,
+    "aspirina": true,
+    "anestesicos": null,
+    "cefalosporinas": null,
+    "frutas_verduras": null,
+    "antiinflamatorios_no_esteroides": null,
+    "insulina": null,
+    "otros": null
+  },
+  "alergias_alimentos": {
+    "frutos_secos": null,
+    "mariscos": null,
+    "lacteos": null,
+    "huevos": null,
+    "trigo": null,
+    "frutas_verduras": null,
+    "soja": null,
+    "gluten": null,
+    "otros": null
+  },
+  "sintomas": {
+    "fiebre": null,
+    "tos": null,
+    "dificultad_respiratoria": true,
+    "perdida_conocimiento": null,
+    "alteraciones_sueño": null,
+    "problemas_sentidos": {
+      "vista": null,
+      "olfato": null,
+      "tacto": null,
+      "gusto": null,
+      "audicion": null
+    },
+    "inflamacion": {
+      "cabeza": null,
+      "extremidades_superiores": null,
+      "extremidades_inferiores": null,
+      "amigdalas": null,
+      "aparato_reproductor": null,
+      "abdomen": null,
+      "otros": null
+    },
+    "fatiga": true,
+    "manchas": {
+      "cabeza": null,
+      "extremidades_superiores": null,
+      "extremidades_inferiores": null,
+      "cuello": null,
+      "espalda": null,
+      "aparato_reproductor": null,
+      "abdomen": null,
+      "otros": null
+    },
+    "comezon": {
+      "cabeza": null,
+      "extremidades_superiores": null,
+      "extremidades_inferiores": null,
+      "cuello": null,
+      "espalda": null,
+      "aparato_reproductor": null,
+      "abdomen": null,
+      "otros": null
+    },
+    "dolor": {
+      "cabeza": null,
+      "extremidades": null,
+      "muscular": null,
+      "abdominal": null
+    },
+    "tiempo_sintomas": null,
+    "frecuencia_sintomas": null
+  },
+  "consumo_medicamentos": {
+    "anticoagulantes": null,
+    "analgesicos": null,
+    "antidepresivos": null,
+    "antihipertensivos": null,
+    "antidiabeticos": null,
+    "estatinas": null,
+    "otros": null
+  },
+  "contacto_enfermo": {
+    "ha_tenido_contacto": null,
+    "diagnostico": null,
+    "sintomas_relacionados": null
+  },
+  "contacto_toxico": {
+    "ha_tenido_contacto": null,
+    "quimico": null,
+    "biologico": null,
+    "otro": null
+  },
+  "viaje_extranjero": {
+    "ha_viajado": null,
+    "australia": null,
+    "brasil": null,
+    "china": null,
+    "india": null,
+    "kenia": null,
+    "sudafrica": null,
+    "otros": null
+  },
+  "estado_animo": {
+    "normal": null,
+    "decaido": null,
+    "cansado": null,
+    "ansioso": null,
+    "falta_apetito": null,
+    "otros": null
+  }
+}
