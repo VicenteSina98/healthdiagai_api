@@ -1,6 +1,16 @@
 # Backend HealthDiagAI
 
-Para arrancar el servidor, ejecute la siguiente instrucción en la consola:
+## Dependencias
+
+Para instalar las dependencias necesarias, una vez clonado el repositorio, ejecute la siguiente instrucción en la consola:
+
+```
+pip3 install -r requirements.txt
+```
+
+## Arrancar el servidor
+
+Para arrancar el servidor, una vez instaladas las dependencias, ejecute la siguiente instrucción en la consola:
 
 ```
 python manage.py runserver
