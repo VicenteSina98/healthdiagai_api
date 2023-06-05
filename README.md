@@ -2,7 +2,9 @@
 
 Para arrancar el servidor, ejecute la siguiente instrucción en la consola:
 
-`python manage.py runserver`
+```
+python manage.py runserver
+```
 
 ## Endpoints
 
