@@ -5,29 +5,6 @@ import openai
 openai.api_key = API_KEY
 
 
-def generar_informacion_personal(data: dict) -> str:
-    """agrega la informacion personal a la ficha medica
-
-    Args:
-        data (dict): informacion personal
-
-    Returns:
-        str: ficha medica con la informacion personal agregada
-    """
-    ficha_medica = 'A continuación se presenta la ficha médica de un paciente. Su nombre es ' + \
-        str(data['nombre'])
-    sexo = ''
-    if data['sexo'] == 'M':
-        sexo = 'Masculino'
-    else:
-        sexo = 'Femenino'
-    ficha_medica += ', de sexo ' + sexo
-    ficha_medica += ', nacido el ' + str(data['fecha_nacimiento'])
-    ficha_medica += ', ' + str(data['altura']) + ' metros de altura y '
-    ficha_medica += str(data['peso']) + ' kilogramos de peso.'
-    return ficha_medica
-
-
 def generar_informacion_2D(data: dict, ficha_medica: str, mensaje: str) -> str:
     """agrega la informacion almacenada en data a la ficha medica
 
@@ -50,6 +27,32 @@ def generar_informacion_2D(data: dict, ficha_medica: str, mensaje: str) -> str:
                 ficha_medica += '; ' + key + ': ' + value
     if not flag_iteracion:
         ficha_medica += '. '
+    return ficha_medica
+
+
+def generar_antecedentes_medicos(data: dict) -> str:
+    """agrega la informacion personal a la ficha medica
+
+    Args:
+        data (dict): informacion personal
+
+    Returns:
+        str: ficha medica con la informacion personal agregada
+    """
+    personalInfo = data['informacion_personal']
+    ficha_medica = 'A continuación se presenta la ficha médica de un paciente. Su nombre es ' + \
+        str(personalInfo['nombre'])
+    sexo = ''
+    if personalInfo['sexo'] == 'M':
+        sexo = 'Masculino'
+    else:
+        sexo = 'Femenino'
+    ficha_medica += ', de sexo ' + sexo
+    ficha_medica += ', nacido el ' + str(personalInfo['fecha_nacimiento'])
+    ficha_medica += ', ' + str(personalInfo['altura']) + ' metros de altura y '
+    ficha_medica += str(personalInfo['peso']) + ' kilogramos de peso.'
+    ficha_medica = generar_informacion_2D(
+        personalInfo['antecedentes_medicos'], ficha_medica, ' Sus antecedentes médicos son los siguientes. ')
     return ficha_medica
 
 
@@ -86,45 +89,19 @@ def generar_informacion_2D_booleana(data: dict, ficha_medica: str, mensaje: str)
     return ficha_medica
 
 
-def generar_sintomas(data: dict, ficha_medica: str, mensaje: str) -> str:
-    """agrega los sintomas a la ficha medica
+def generar_informacion_simple(data: dict, key: str, ficha_medica: str, mensaje: str) -> str:
+    """agrega la informacion almacenada en data en la llave key a la ficha medica
 
     Args:
-        data (dict): sintomas
+        data (dict): informacion respecto a los datos del paciente
+        key (str): llave a buscar en la data
         ficha_medica (str): ficha medica
-        mensaje (str): frase para presentar los sintomas
+        mensaje (str): frase para presentar la informacion
 
     Returns:
-        str: ficha medica con los sintomas agregados
+        str: ficha medica con la informacion agregada
     """
-    flag_iteracion = True
-    for key, value in data.items():
-        if type(value) is dict:
-            if flag_iteracion:
-                # primera iteracion
-                ficha_medica += mensaje + key + ': '
-                ficha_medica = generar_informacion_2D_booleana(
-                    data[key], ficha_medica, '')
-                flag_iteracion = False
-            else:
-                ficha_medica = generar_informacion_2D_booleana(
-                    data[key], ficha_medica, '')
-        elif type(value) is str:
-            if flag_iteracion:
-                # primera iteracion
-                ficha_medica += mensaje + key + ': ' + value
-                flag_iteracion = False
-            else:
-                ficha_medica += '; ' + key + ': ' + value
-        elif value == True:
-            if flag_iteracion:
-                # primera iteracion
-                ficha_medica += mensaje + key
-                flag_iteracion = False
-            else:
-                ficha_medica += '; ' + key
-    if not flag_iteracion:
-        ficha_medica += '. '
+    ficha_medica += mensaje + data[key] + '. '
     return ficha_medica
 
 
@@ -163,12 +140,9 @@ def generar_contacto_toxico(data: dict, ficha_medica: str) -> str:
     if not data['ha_tenido_contacto']:
         return ficha_medica
     ficha_medica += 'El paciente ha tenido contacto con algún agente infeccioso o tóxico. '
-    if data['quimico'] != None:
-        ficha_medica += 'El agente infeccioso era de tipo químico. '
-    if data['biologico'] != None:
-        ficha_medica += 'El agente infeccioso era de tipo biológico. '
-    if data['otro'] != None:
-        ficha_medica += 'El agente infeccioso era de tipo otro. '
+    if data['tipo'] != None:
+        ficha_medica += 'El tipo del agente infeccioso o tóxico era del siguiente tipo' + \
+            data['tipo']
     return ficha_medica
 
 
@@ -184,20 +158,9 @@ def generar_viaje_extranjero(data: dict, ficha_medica: str) -> str:
     """
     if not data['ha_viajado']:
         return ficha_medica
-    flag_iteracion = 1
-    for key, value in data.items():
-        if flag_iteracion == 1:
-            # primera iteracion
-            flag_iteracion = 2
-            ficha_medica += 'El paciente ha viajado a los siguientes paises: '
-        elif flag_iteracion == 2:
-            # segunda iteracion
-            flag_iteracion = 0
-            ficha_medica += key
-        else:
-            if value != None:
-                ficha_medica += ', ' + key
-    ficha_medica += '. '
+    if not data['paises']:
+        ficha_medica += 'El paciente ha viajado a los siguientes países: ' + \
+            data['paises']
     return ficha_medica
 
 
@@ -224,23 +187,22 @@ def generar_ficha_medica(data: dict) -> str:
     Returns:
         str: ficha medica generada
     """
-    ficha_medica = generar_informacion_personal(data)
-    ficha_medica = generar_informacion_2D(
-        data['antecedentes_medicos'], ficha_medica, ' Sus antecedentes médicos son los siguientes. ')
-    ficha_medica = generar_informacion_2D_booleana(
-        data['alergias_alimentos'], ficha_medica, ' El paciente tiene alergias a los siguientes alimentos: ')
-    ficha_medica = generar_informacion_2D_booleana(
-        data['alergias_medicamentos'], ficha_medica, ' El paciente tiene alergias a los siguientes medicamentos: ')
-    ficha_medica = generar_sintomas(
-        data['sintomas'], ficha_medica, ' El paciente presenta los siguientes síntomas. ')
-    ficha_medica = generar_informacion_2D_booleana(
-        data['consumo_medicamentos'], ficha_medica, ' El paciente consume los siguientes medicamentos: ')
+    print(data)
+    ficha_medica = generar_antecedentes_medicos(data)
+    ficha_medica = generar_informacion_simple(data, 'alergias_medicamentos',
+                                              ficha_medica, 'El paciente es alergico a los siguientes medicamentos: ')
+    ficha_medica = generar_informacion_simple(data, 'alergias_alimentos',
+                                              ficha_medica, 'El paciente es alergico a los siguientes alimentos: ')
+    ficha_medica = generar_informacion_simple(data, 'sintomas',
+                                              ficha_medica, 'El paciente presenta los siguientes sintomas: ')
+    ficha_medica = generar_informacion_simple(data, 'consumo_medicamentos',
+                                              ficha_medica, 'El paciente consume los siguientes medicamentos: ')
+    ficha_medica = generar_informacion_simple(data, 'estado_animo',
+                                              ficha_medica, 'El paciente presenta los siguiente estados de animo: ')
     ficha_medica = generar_contacto_enfermo(
         data['contacto_enfermo'], ficha_medica)
     ficha_medica = generar_viaje_extranjero(
         data['viaje_extranjero'], ficha_medica)
-    ficha_medica = generar_informacion_2D_booleana(
-        data['estado_animo'], ficha_medica, ' El paciente siente los siguientes estados de ánimo: ')
     ficha_medica = generar_parte_final(ficha_medica)
     return ficha_medica
 
