@@ -231,5 +231,5 @@ def generar_prediccion(ficha_medica: str) -> dict:
         return data
     except Exception as e:
         data = {'errorCode': 503,
-                'errorStatus': status.HTTP_503__SERVICE_UNAVAILABLE}
+                'errorStatus': status.HTTP_503_SERVICE_UNAVAILABLE}
         return data
