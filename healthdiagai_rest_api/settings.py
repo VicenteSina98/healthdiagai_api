@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -81,10 +83,21 @@ WSGI_APPLICATION = 'healthdiagai_rest_api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+
+load_dotenv('../.env')
+NAME_DB = os.getenv("NAME_DB")
+USER_DB = os.getenv("USER_DB")
+PASSWORD_DB = os.getenv("PASSWORD_DB")
+HOST_DB = os.getenv("NAME_DB")
+PORT_DB = os.getenv("NAME_DB")
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'healthdiagai',
+        'USER': 'root',
+        'PASSWORD': 'admin123',
+        'HOST': 'localhost',
+        'PORT': '3306'
     }
 }
 
