@@ -84,20 +84,20 @@ WSGI_APPLICATION = 'healthdiagai_rest_api.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 
-load_dotenv('../.env')
+load_dotenv()
 NAME_DB = os.getenv("NAME_DB")
 USER_DB = os.getenv("USER_DB")
 PASSWORD_DB = os.getenv("PASSWORD_DB")
-HOST_DB = os.getenv("NAME_DB")
-PORT_DB = os.getenv("NAME_DB")
+HOST_DB = 'localhost'
+PORT_DB = 3306
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'healthdiagai',
-        'USER': 'root',
-        'PASSWORD': 'admin123',
-        'HOST': 'localhost',
-        'PORT': '3306'
+        'NAME': NAME_DB,
+        'USER': USER_DB,
+        'PASSWORD': PASSWORD_DB,
+        'HOST': HOST_DB,
+        'PORT': PORT_DB
     }
 }
 
