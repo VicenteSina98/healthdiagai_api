@@ -39,6 +39,16 @@ class AntecedentesMedicos(models.Model):
 class Prediccion(models.Model):
     usuario = models.ForeignKey(
         Usuario, on_delete=models.CASCADE, default=None)
+    enfermedad1 = models.CharField(max_length=250, null=False, blank=True)
+    enfermedad2 = models.CharField(max_length=250, null=False, blank=True)
+    enfermedad3 = models.CharField(max_length=250, null=False, blank=True)
+    enfermedad4 = models.CharField(max_length=250, null=False, blank=True)
+    enfermedad5 = models.CharField(max_length=250, null=False, blank=True)
+    profesional1 = models.CharField(max_length=250, null=False, blank=True)
+    profesional2 = models.CharField(max_length=250, null=False, blank=True)
+    profesional3 = models.CharField(max_length=250, null=False, blank=True)
+    profesional4 = models.CharField(max_length=250, null=False, blank=True)
+    profesional5 = models.CharField(max_length=250, null=False, blank=True)
 
 
 class Mensaje(models.Model):
