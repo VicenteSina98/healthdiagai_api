@@ -183,6 +183,7 @@ class PrediccionList(APIView):
 class PrediccionDetail(APIView):
     def get_predicciones_object(self, id_usuario):
         try:
+            print(Prediccion.objects.filter(usuario=id_usuario))
             return Prediccion.objects.filter(usuario=id_usuario)
         except Prediccion.DoesNotExist:
             raise Http404
