@@ -235,16 +235,6 @@ class PrediccionDetail(APIView):
             data.append(prediccion_auxiliar)
         return Response(data)
 
-        data = {'mensajes': []}
-        for key, value in prediccion_data:
-            data[key] = value
-        for mensaje_data in mensajes_data:
-            mensaje_auxiliar = {}
-            for key, value in mensaje_data:
-                mensaje_auxiliar[key] = value
-            data['mensajes'].append(mensaje_auxiliar)
-        return Response(data)
-
 
 class GenerarPrediccion(APIView):
     def get(self, request):
@@ -262,7 +252,7 @@ class GenerarPrediccion(APIView):
         prediccion_list = list(filter(None, prediccion_list))
         pprint.pprint(prediccion_list)
         posibles_enfermedades = prediccion_list[1:6]
-        posibles_profesionales = prediccion_list[8:]
+        posibles_profesionales = prediccion_list[7:12]
         data = {'posibles_enfermedades': posibles_enfermedades,
                 'posibles_profesionales': posibles_profesionales}
         return Response(data, status=status.HTTP_200_OK)
