@@ -1,6 +1,7 @@
 from rest_framework import status
 from .secret_key import API_KEY
 import openai
+import pprint
 
 openai.api_key = API_KEY
 
@@ -21,10 +22,10 @@ def generar_informacion_2D(data: dict, ficha_medica: str, mensaje: str) -> str:
         if value != None:
             if flag_iteracion:
                 # primera iteracion
-                ficha_medica += mensaje + key + ': ' + value
+                ficha_medica += mensaje + key + ': ' + str(value)
                 flag_iteracion = False
             else:
-                ficha_medica += '; ' + key + ': ' + value
+                ficha_medica += '; ' + key + ': ' + str(value)
     if not flag_iteracion:
         ficha_medica += '. '
     return ficha_medica
@@ -41,7 +42,8 @@ def generar_antecedentes_medicos(data: dict) -> str:
     """
     personalInfo = data['informacion_personal']
     ficha_medica = 'A continuación se presenta la ficha médica de un paciente. Su nombre es ' + \
-        str(personalInfo['nombre'])
+        str(personalInfo['nombres']) + ' ' + str(personalInfo['primer_apellido']) + ' ' + \
+        str(personalInfo['segundo_apellido'])
     sexo = ''
     if personalInfo['sexo'] == 'M':
         sexo = 'Masculino'
@@ -187,7 +189,7 @@ def generar_ficha_medica(data: dict) -> str:
     Returns:
         str: ficha medica generada
     """
-    print(data)
+    pprint.pprint(data)
     ficha_medica = generar_antecedentes_medicos(data)
     ficha_medica = generar_informacion_simple(data, 'alergias_medicamentos',
                                               ficha_medica, 'El paciente es alergico a los siguientes medicamentos: ')
