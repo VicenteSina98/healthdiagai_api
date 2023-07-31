@@ -39,6 +39,7 @@ class RegisterView(APIView):
         data = request.data
         informacion_personal = data['informacionPersonal']
         antecedentes_medicos = data['antecedentesMedicos']
+        print(antecedentes_medicos)
         user = User(username=informacion_personal['email'])
         user.set_password(informacion_personal['password'])
         user.save()
@@ -58,13 +59,13 @@ class RegisterView(APIView):
             return Response(usuario_serializer.errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         usuario_serializer.save()
         ant_medicos_serializer = AntecedentesMedicosSerializer(data={
-            'enfermedades_cronicas': antecedentes_medicos['enfermedadesCronicas'],
-            'historial_alergias': antecedentes_medicos['historialAlergias'],
-            'historial_cirugias': antecedentes_medicos['historialCirugias'],
-            'historial_medicamentos': antecedentes_medicos['historialMedicamentos'],
-            'historial_enfermedades_familia': antecedentes_medicos['historialEnfermedadesFamilia'],
-            'historial_enfermedades_infecciosas': antecedentes_medicos['historialEnfermedadesInfecciosas'],
-            'historial_habitos_salud': antecedentes_medicos['historialHabitosSalud'],
+            'enfermedades_cronicas': antecedentes_medicos['enfermedades_cronicas'],
+            'historial_alergias': antecedentes_medicos['historial_alergias'],
+            'historial_cirugias': antecedentes_medicos['historial_cirugias'],
+            'historial_medicamentos': antecedentes_medicos['historial_medicamentos'],
+            'historial_enfermedades_familia': antecedentes_medicos['historial_enfermedades_familia'],
+            'historial_enfermedades_infecciosas': antecedentes_medicos['historial_enfermedades_infecciosas'],
+            'historial_habitos_salud': antecedentes_medicos['historial_habitos_salud'],
             'usuario': Usuario.objects.get(email=usuario_serializer.data['email']).pk
         })
         if not ant_medicos_serializer.is_valid():
