@@ -28,6 +28,12 @@ SECRET_KEY = 'django-insecure-fw+=rz=bkq=6pag3e3i%u_4uu%5tl@bc2vbbkofrt_(&-9b%c(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+load_dotenv()
+NAME_DB = os.getenv("NAME_DB")
+USER_DB = os.getenv("USER_DB")
+PASSWORD_DB = os.getenv("PASSWORD_DB")
+HOST_DB = 'health-db.czcrdojsf8bo.us-east-2.rds.amazonaws.com'
+PORT_DB = 3306
 ALLOWED_HOSTS = ['*']
 
 
@@ -122,12 +128,7 @@ WSGI_APPLICATION = 'healthdiagai_rest_api.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 
-load_dotenv()
-NAME_DB = os.getenv("NAME_DB")
-USER_DB = os.getenv("USER_DB")
-PASSWORD_DB = os.getenv("PASSWORD_DB")
-HOST_DB = 'localhost'
-PORT_DB = 3306
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
