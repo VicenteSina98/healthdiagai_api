@@ -32,8 +32,8 @@ load_dotenv()
 NAME_DB = os.getenv("NAME_DB")
 USER_DB = os.getenv("USER_DB")
 PASSWORD_DB = os.getenv("PASSWORD_DB")
-HOST_DB = 'health-db.czcrdojsf8bo.us-east-2.rds.amazonaws.com'
-PORT_DB = 3306
+HOST_DB = os.getenv("HOST_DB")
+PORT_DB = os.getenv("PORT_DB")
 ALLOWED_HOSTS = ['*']
 
 
