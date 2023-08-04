@@ -29,12 +29,13 @@ SECRET_KEY = 'django-insecure-fw+=rz=bkq=6pag3e3i%u_4uu%5tl@bc2vbbkofrt_(&-9b%c(
 DEBUG = True
 
 load_dotenv()
+HOST_DB = os.getenv('HOST_DB')
 NAME_DB = os.getenv("NAME_DB")
 USER_DB = os.getenv("USER_DB")
 PASSWORD_DB = os.getenv("PASSWORD_DB")
 HOST_DB = os.getenv("HOST_DB")
 PORT_DB = os.getenv("PORT_DB")
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [HOST_DB, '0.0.0.0']
 
 
 # Application definition
