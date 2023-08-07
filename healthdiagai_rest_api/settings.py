@@ -38,9 +38,9 @@ PORT_DB = os.getenv("PORT_DB")
 HOST_API = os.getenv('HOST_API')
 
 
-ALLOWED_HOSTS = [HOST_DB, HOST_API, 'http://0.0.0.0']
-CSRF_TRUSTED_ORIGINS = [HOST_DB, HOST_API, 'http://0.0.0.0']
-CORS_ORIGIN_WHITELIST = [HOST_DB, HOST_API, 'http://0.0.0.0']
+ALLOWED_HOSTS = [HOST_API, 'http://0.0.0.0']
+CSRF_TRUSTED_ORIGINS = [HOST_API, 'http://0.0.0.0']
+CORS_ORIGIN_WHITELIST = [HOST_API, 'http://0.0.0.0']
 
 
 # Application definition
