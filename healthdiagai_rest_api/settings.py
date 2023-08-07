@@ -35,7 +35,11 @@ USER_DB = os.getenv("USER_DB")
 PASSWORD_DB = os.getenv("PASSWORD_DB")
 HOST_DB = os.getenv("HOST_DB")
 PORT_DB = os.getenv("PORT_DB")
+
+
 ALLOWED_HOSTS = [HOST_DB, '0.0.0.0']
+CSRF_TRUSTED_ORIGINS = [HOST_DB, '0.0.0.0']
+CORS_ORIGIN_WHITELIST = [HOST_DB, '0.0.0.0']
 
 
 # Application definition
@@ -101,8 +105,6 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
-
-CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'healthdiagai_rest_api.urls'
 
