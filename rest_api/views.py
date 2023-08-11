@@ -59,7 +59,7 @@ class RegisterView(APIView):
             return Response(usuario_serializer.errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         usuario_serializer.save()
         ant_medicos_serializer = AntecedentesMedicosSerializer(data={
-            'enfermedades_cronicas': antecedentes_medicos['enfermedades_cronicas'],
+            'enfermedades_cronicas': antecedentes_medicos['enfermedadesCronicas'],
             'historial_alergias': antecedentes_medicos['historial_alergias'],
             'historial_cirugias': antecedentes_medicos['historial_cirugias'],
             'historial_medicamentos': antecedentes_medicos['historial_medicamentos'],
