@@ -42,7 +42,6 @@ class RegisterView(APIView):
         print(antecedentes_medicos)
         user = User(username=informacion_personal['email'])
         user.set_password(informacion_personal['password'])
-        user.save()
         usuario_serializer = UsuarioSerializer(data={
             'email': informacion_personal['email'],
             'nombres': informacion_personal['nombres'],
@@ -57,20 +56,21 @@ class RegisterView(APIView):
         if not usuario_serializer.is_valid():
             print(usuario_serializer.errors)
             return Response(usuario_serializer.errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        usuario_serializer.save()
         ant_medicos_serializer = AntecedentesMedicosSerializer(data={
             'enfermedades_cronicas': antecedentes_medicos['enfermedadesCronicas'],
-            'historial_alergias': antecedentes_medicos['historial_alergias'],
-            'historial_cirugias': antecedentes_medicos['historial_cirugias'],
-            'historial_medicamentos': antecedentes_medicos['historial_medicamentos'],
-            'historial_enfermedades_familia': antecedentes_medicos['historial_enfermedades_familia'],
-            'historial_enfermedades_infecciosas': antecedentes_medicos['historial_enfermedades_infecciosas'],
-            'historial_habitos_salud': antecedentes_medicos['historial_habitos_salud'],
+            'historial_alergias': antecedentes_medicos['historialAlergias'],
+            'historial_cirugias': antecedentes_medicos['historialCirugias'],
+            'historial_medicamentos': antecedentes_medicos['historialMedicamentos'],
+            'historial_enfermedades_familia': antecedentes_medicos['historialEnfermedadesFamilia'],
+            'historial_enfermedades_infecciosas': antecedentes_medicos['historialEnfermedadesInfecciosas'],
+            'historial_habitos_salud': antecedentes_medicos['historialHabitosSalud'],
             'usuario': Usuario.objects.get(email=usuario_serializer.data['email']).pk
         })
         if not ant_medicos_serializer.is_valid():
             print(ant_medicos_serializer.errors)
             return Response(ant_medicos_serializer.errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        usuario_serializer.save()
+        user.save()
         ant_medicos_serializer.save()
         return Response(usuario_serializer.data, status=status.HTTP_201_CREATED)
 
