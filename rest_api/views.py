@@ -57,14 +57,14 @@ class RegisterView(APIView):
             print(usuario_serializer.errors)
             return Response(usuario_serializer.errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         ant_medicos_serializer = AntecedentesMedicosSerializer(data={
+            'usuario': Usuario.objects.get(email=usuario_serializer.data['email']).pk,
             'enfermedades_cronicas': antecedentes_medicos['enfermedadesCronicas'],
             'historial_alergias': antecedentes_medicos['historialAlergias'],
             'historial_cirugias': antecedentes_medicos['historialCirugias'],
             'historial_medicamentos': antecedentes_medicos['historialMedicamentos'],
             'historial_enfermedades_familia': antecedentes_medicos['historialEnfermedadesFamilia'],
             'historial_enfermedades_infecciosas': antecedentes_medicos['historialEnfermedadesInfecciosas'],
-            'historial_habitos_salud': antecedentes_medicos['historialHabitosSalud'],
-            'usuario': Usuario.objects.get(email=usuario_serializer.data['email']).pk
+            'historial_habitos_salud': antecedentes_medicos['historialHabitosSalud']
         })
         if not ant_medicos_serializer.is_valid():
             print(ant_medicos_serializer.errors)
