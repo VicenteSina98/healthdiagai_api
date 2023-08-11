@@ -19,19 +19,19 @@ class Usuario(models.Model):
 
 class AntecedentesMedicos(models.Model):
     enfermedades_cronicas = models.CharField(
-        max_length=250, null=True, blank=True)
+        max_length=250, null=True, blank=True, default="")
     historial_alergias = models.CharField(
-        max_length=250, null=True, blank=True)
+        max_length=250, null=True, blank=True, default="")
     historial_cirugias = models.CharField(
-        max_length=250, null=True, blank=True)
+        max_length=250, null=True, blank=True, default="")
     historial_medicamentos = models.CharField(
-        max_length=250, null=True, blank=True)
+        max_length=250, null=True, blank=True, default="")
     historial_enfermedades_familia = models.CharField(
-        max_length=250, null=True, blank=True)
+        max_length=250, null=True, blank=True, default="")
     historial_enfermedades_infecciosas = models.CharField(
-        max_length=250, null=True, blank=True)
+        max_length=250, null=True, blank=True, default="")
     historial_habitos_salud = models.CharField(
-        max_length=250, null=True, blank=True)
+        max_length=250, null=True, blank=True, default="")
     usuario = models.OneToOneField(
         Usuario, on_delete=models.CASCADE, primary_key=True)
 
