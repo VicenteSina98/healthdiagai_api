@@ -56,6 +56,8 @@ class RegisterView(APIView):
         if not usuario_serializer.is_valid():
             print(usuario_serializer.errors)
             return Response(usuario_serializer.errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        user.save()
+        usuario_serializer.save()
         ant_medicos_serializer = AntecedentesMedicosSerializer(data={
             'usuario': Usuario.objects.get(email=usuario_serializer.data['email']).pk,
             'enfermedades_cronicas': antecedentes_medicos['enfermedadesCronicas'],
@@ -67,10 +69,10 @@ class RegisterView(APIView):
             'historial_habitos_salud': antecedentes_medicos['historialHabitosSalud']
         })
         if not ant_medicos_serializer.is_valid():
+            user.delete()
+            usuario_serializer.delete()
             print(ant_medicos_serializer.errors)
             return Response(ant_medicos_serializer.errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        usuario_serializer.save()
-        user.save()
         ant_medicos_serializer.save()
         return Response(usuario_serializer.data, status=status.HTTP_201_CREATED)
 
