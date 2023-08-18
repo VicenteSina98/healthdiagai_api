@@ -39,9 +39,9 @@ class RegisterView(APIView):
         data = request.data
         informacion_personal = data['informacionPersonal']
         antecedentes_medicos = data['antecedentesMedicos']
-        print(antecedentes_medicos)
         user = User(username=informacion_personal['email'])
         user.set_password(informacion_personal['password'])
+        user.save()
         usuario_serializer = UsuarioSerializer(data={
             'email': informacion_personal['email'],
             'nombres': informacion_personal['nombres'],
@@ -56,7 +56,6 @@ class RegisterView(APIView):
         if not usuario_serializer.is_valid():
             print(usuario_serializer.errors)
             return Response(usuario_serializer.errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        user.save()
         usuario_serializer.save()
         ant_medicos_serializer = AntecedentesMedicosSerializer(data={
             'usuario': Usuario.objects.get(email=usuario_serializer.data['email']).pk,
