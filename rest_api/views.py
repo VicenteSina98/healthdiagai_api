@@ -15,10 +15,15 @@ import pprint
 @api_view(['GET'])
 def getRoutes(request):
     routes = [
-        '/token',
-        '/register',
-        '/token/refresh',
-        '/test'
+        'token',
+        'token/refresh',
+        'register',
+        'usuario/',
+        'usuario/<str:user_email>',
+        'prediccion/',
+        'prediccion/generar',
+        'prediccion/guardar',
+        'prediccion/<int:id_usuario>',
     ]
     return Response(routes)
 
@@ -253,8 +258,5 @@ class GenerarPrediccion(APIView):
         prediccion_list = prediccion['prediccion'].split('\n')
         prediccion_list = list(filter(None, prediccion_list))
         pprint.pprint(prediccion_list)
-        posibles_enfermedades = prediccion_list[1:6]
-        posibles_profesionales = prediccion_list[7:12]
-        data = {'posibles_enfermedades': posibles_enfermedades,
-                'posibles_profesionales': posibles_profesionales}
+        data = {'response': prediccion_list[1:6]}
         return Response(data, status=status.HTTP_200_OK)
