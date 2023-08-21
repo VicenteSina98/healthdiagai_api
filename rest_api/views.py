@@ -160,28 +160,16 @@ class PrediccionList(APIView):
         data['enfermedad3']=data['enfermedad3'].split(':')[0]
         data['enfermedad4']=data['enfermedad4'].split(':')[0]
         data['enfermedad5']=data['enfermedad5'].split(':')[0]
-        data['profesional1']=data['profesional1'].split(':')[0]
-        data['profesional2']=data['profesional2'].split(':')[0]
-        data['profesional3']=data['profesional3'].split(':')[0]
-        data['profesional4']=data['profesional4'].split(':')[0]
-        data['profesional5']=data['profesional5'].split(':')[0]
-        pprint.pprint(data)
         prediccion = Prediccion(usuario=Usuario.objects.get(pk=data['id']),
                                 enfermedad1=data['enfermedad1'],
                                 enfermedad2=data['enfermedad2'],
                                 enfermedad3=data['enfermedad3'],
                                 enfermedad4=data['enfermedad4'],
-                                enfermedad5=data['enfermedad5'],
-                                profesional1=data['profesional1'],
-                                profesional2=data['profesional2'],
-                                profesional3=data['profesional3'],
-                                profesional4=data['profesional4'],
-                                profesional5=data['profesional5'])
+                                enfermedad5=data['enfermedad5'])
         prediccion.save()
         mensajes = []
         prediccion_pk = Prediccion.objects.get(pk=prediccion.pk).pk
         for pregunta, respuesta in zip(data['preguntas'], data['respuestas']):
-            print((pregunta, respuesta))
             pregunta_serializer = MensajeSerializer(data={
                 'prediccion': prediccion_pk,
                 'enviado_por_bot': True,
