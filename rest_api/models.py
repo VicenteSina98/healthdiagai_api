@@ -41,11 +41,6 @@ class Prediccion(models.Model):
     usuario = models.ForeignKey(
         Usuario, on_delete=models.CASCADE, default=None)
     nombre = models.CharField(max_length=100, null=False, blank=True)
-    enfermedad1 = models.TextField(null=False, blank=True)
-    enfermedad2 = models.TextField(null=False, blank=True)
-    enfermedad3 = models.TextField(null=False, blank=True)
-    enfermedad4 = models.TextField(null=False, blank=True)
-    enfermedad5 = models.TextField(null=False, blank=True)
     creado_el = models.DateTimeField(auto_now_add=True)
 
 

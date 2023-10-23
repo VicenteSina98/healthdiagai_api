@@ -87,9 +87,11 @@ def generar_antecedentes_medicos(data: dict, ficha_medica: str) -> str:
         sexo = 'hombre'
     else:
         sexo = 'mujer'
-    
-    ficha_medica += sexo + ' de ' + calcular_edad(str(info_personal['fecha_nacimiento'])) + ', '
-    ficha_medica += ', ' + str(info_personal['altura']) + ' metros de altura y '
+
+    ficha_medica += sexo + ' de ' + \
+        calcular_edad(str(info_personal['fecha_nacimiento'])) + ', '
+    ficha_medica += ', ' + \
+        str(info_personal['altura']) + ' metros de altura y '
     ficha_medica += str(info_personal['peso']) + ' kilogramos de peso. '
     ficha_medica = concatenar_antecedentes_medicos(ficha_medica, ant_medicos)
     return ficha_medica
@@ -184,7 +186,6 @@ def generar_ficha_medica(data: dict, generarParteInicial: bool = True) -> str:
     Returns:
         str: ficha medica generada
     """
-    pprint.pprint(data)
     ficha_medica = ''
     if generarParteInicial:
         ficha_medica = generar_parte_inicial()
@@ -230,3 +231,10 @@ def request_openai(prompt: str) -> dict:
                 'errorStatus': status.HTTP_503_SERVICE_UNAVAILABLE,
                 'data': e.__dict__}
         return data
+
+
+def clean_prediction(prediction):
+    split_prediction = prediction.split('\n')
+    split_prediction = split_prediction[1:6]
+    remake_prediction = [pred.split(':')[0] for pred in split_prediction]
+    return remake_prediction

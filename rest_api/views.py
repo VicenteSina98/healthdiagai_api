@@ -155,22 +155,15 @@ class PrediccionList(APIView):
 
     def post(self, request):
         data = request.data
-        data['enfermedad1'] = data['enfermedad1']
-        data['enfermedad2'] = data['enfermedad2']
-        data['enfermedad3'] = data['enfermedad3']
-        data['enfermedad4'] = data['enfermedad4']
-        data['enfermedad5'] = data['enfermedad5']
         prediccion = Prediccion(usuario=Usuario.objects.get(pk=data['id']),
-                                nombre=data['nombre'],
-                                enfermedad1=data['enfermedad1'],
-                                enfermedad2=data['enfermedad2'],
-                                enfermedad3=data['enfermedad3'],
-                                enfermedad4=data['enfermedad4'],
-                                enfermedad5=data['enfermedad5'])
+                                nombre=data['nombre'])
         prediccion.save()
         mensajes = []
         prediccion_pk = Prediccion.objects.get(pk=prediccion.pk).pk
+        if len(data['preguntas']) > len(data['respuestas']):
+            data['respuestas'].append('')
         for pregunta, respuesta in zip(data['preguntas'], data['respuestas']):
+            par_de_mensajes = {'pregunta': '', 'respuesta': ''}
             pregunta_serializer = MensajeSerializer(data={
                 'prediccion': prediccion_pk,
                 'enviado_por_bot': True,
@@ -180,17 +173,19 @@ class PrediccionList(APIView):
                 print(pregunta_serializer.errors)
                 return Response(pregunta_serializer.errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             pregunta_serializer.save()
-            respuesta_serializer = MensajeSerializer(data={
-                'prediccion': prediccion_pk,
-                'enviado_por_bot': False,
-                'texto': respuesta
-            })
-            if not respuesta_serializer.is_valid():
-                print(respuesta_serializer.errors)
-                return Response(respuesta_serializer.errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-            respuesta_serializer.save()
-            par_de_mensajes = {'pregunta': pregunta_serializer.data['texto'],
-                               'respuesta': respuesta_serializer.data['texto']}
+            par_de_mensajes['pregunta'] = pregunta_serializer.data['texto']
+            if respuesta != '':
+                respuesta_serializer = MensajeSerializer(data={
+                    'prediccion': prediccion_pk,
+                    'enviado_por_bot': False,
+                    'texto': respuesta
+                })
+                if not respuesta_serializer.is_valid():
+                    print(respuesta_serializer.errors)
+                    return Response(respuesta_serializer.errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                respuesta_serializer.save()
+                par_de_mensajes['respuesta'] = respuesta_serializer.data['texto']
+            par_de_mensajes['respuesta'] = ''
             mensajes.append(par_de_mensajes)
 
         return Response({'prediccion_id': prediccion_pk, 'mensajes': mensajes}, status=status.HTTP_201_CREATED)
@@ -243,10 +238,7 @@ class GenerarPrediccion(APIView):
         if 'errorCode' in prediccion.keys():
             return Response(prediccion, status=prediccion['errorStatus'])
         # prediccion OK
-        prediccion_list = prediccion['response'].split('\n')
-        prediccion_list = list(filter(None, prediccion_list))
-        pprint.pprint(prediccion_list)
-        data = {'response': prediccion_list[1:6]}
+        data = {'response': prediccion['response']}
         return Response(data, status=status.HTTP_200_OK)
 
 
@@ -259,7 +251,7 @@ class ChatMensaje(APIView):
         prompt += 'Tu tarea es, dada la lista de posibles patologías, responder la siguiente duda de tu paciente: "'
         prompt += request.data['message']
         prompt += '". El listado es el siguiente: '
-        prompt += '. '.join(request.data['prediction'])
+        prompt += '. '.join(clean_prediction(request.data['prediction']))
         prompt += '. La ficha médica es la siguiente: '
         prompt += generar_ficha_medica(
             request.data['medicalData'], generarParteInicial=False)
