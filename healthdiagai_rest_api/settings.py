@@ -41,7 +41,8 @@ HOST_API = os.getenv('HOST_API')
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 # CSRF_TRUSTED_ORIGINS = [HOST_API]
 # CORS_ORIGIN_WHITELIST = [HOST_API]
-CORS_ALLOW_ALL_ORIGINS = True
+# CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = ['127.0.0.1', 'localhost', os.getenv('HOST_FRONT')]
 
 
 # Application definition
