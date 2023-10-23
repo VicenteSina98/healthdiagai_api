@@ -6,6 +6,7 @@ from .views import (
     UsuarioDetail,
     PrediccionList,
     PrediccionDetail,
+    ChatMensaje,
     getRoutes
 )
 from rest_framework_simplejwt.views import TokenRefreshView
@@ -20,5 +21,6 @@ urlpatterns = [
     path('prediccion/generar', GenerarPrediccion.as_view()),
     path('prediccion/guardar', PrediccionList.as_view()),
     path('prediccion/<int:id_usuario>', PrediccionDetail.as_view()),
+    path('chat/mensaje', ChatMensaje.as_view()),
     path('', getRoutes)
 ]

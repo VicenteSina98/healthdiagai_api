@@ -1,11 +1,13 @@
 from rest_framework import status
-from .secret_key import API_KEY
+from dotenv import load_dotenv
+import os
 import openai
 import pprint
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
-openai.api_key = API_KEY
+load_dotenv()
+openai.api_key = os.getenv('OPENAI_API_KEY')
 
 
 def generar_parte_inicial() -> str:
@@ -173,7 +175,7 @@ def generar_viaje_extranjero(data: dict, ficha_medica: str) -> str:
     return ficha_medica
 
 
-def generar_ficha_medica(data: dict) -> str:
+def generar_ficha_medica(data: dict, generarParteInicial: bool = True) -> str:
     """genera la ficha medica del paciente
 
     Args:
@@ -183,7 +185,9 @@ def generar_ficha_medica(data: dict) -> str:
         str: ficha medica generada
     """
     pprint.pprint(data)
-    ficha_medica = generar_parte_inicial()
+    ficha_medica = ''
+    if generarParteInicial:
+        ficha_medica = generar_parte_inicial()
     ficha_medica = generar_antecedentes_medicos(data, ficha_medica)
     ficha_medica = generar_parte_intermedia(ficha_medica)
     ficha_medica = generar_informacion_simple(data, 'sintomas',
@@ -199,27 +203,27 @@ def generar_ficha_medica(data: dict) -> str:
     return ficha_medica
 
 
-def generar_prediccion(ficha_medica: str) -> dict:
+def request_openai(prompt: str) -> dict:
     """genera la prediccion de 5 posibles enfermedades y 5 profesionales a los que recurrir
 
     Args:
-        ficha_medica (str): ficha medica
+        prompt (str): ficha medica
 
     Returns:
         dict: prediccion
     """
     try:
         # generar prediccion
-        prediccion = openai.ChatCompletion.create(
+        response = openai.ChatCompletion.create(
             model='gpt-3.5-turbo',
             messages=[
-                {'role': 'user', 'content': ficha_medica}
+                {'role': 'user', 'content': prompt}
             ],
             temperature=0
         )
-        # extraer prediccion
+        # extraer response
         data = {
-            'prediccion': prediccion['choices'][0]['message']['content']}
+            'response': response['choices'][0]['message']['content']}
         return data
     except Exception as e:
         data = {'errorCode': 503,

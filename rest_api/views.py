@@ -155,12 +155,13 @@ class PrediccionList(APIView):
 
     def post(self, request):
         data = request.data
-        data['enfermedad1']=data['enfermedad1'].split(':')[0]
-        data['enfermedad2']=data['enfermedad2'].split(':')[0]
-        data['enfermedad3']=data['enfermedad3'].split(':')[0]
-        data['enfermedad4']=data['enfermedad4'].split(':')[0]
-        data['enfermedad5']=data['enfermedad5'].split(':')[0]
+        data['enfermedad1'] = data['enfermedad1']
+        data['enfermedad2'] = data['enfermedad2']
+        data['enfermedad3'] = data['enfermedad3']
+        data['enfermedad4'] = data['enfermedad4']
+        data['enfermedad5'] = data['enfermedad5']
         prediccion = Prediccion(usuario=Usuario.objects.get(pk=data['id']),
+                                nombre=data['nombre'],
                                 enfermedad1=data['enfermedad1'],
                                 enfermedad2=data['enfermedad2'],
                                 enfermedad3=data['enfermedad3'],
@@ -237,14 +238,33 @@ class GenerarPrediccion(APIView):
 
     def post(self, request):
         ficha_medica = generar_ficha_medica(request.data)
-        prediccion = generar_prediccion(ficha_medica)
+        prediccion = request_openai(ficha_medica)
         # error en la generacion del prediccion
         if 'errorCode' in prediccion.keys():
-            print(prediccion)
             return Response(prediccion, status=prediccion['errorStatus'])
         # prediccion OK
-        prediccion_list = prediccion['prediccion'].split('\n')
+        prediccion_list = prediccion['response'].split('\n')
         prediccion_list = list(filter(None, prediccion_list))
         pprint.pprint(prediccion_list)
         data = {'response': prediccion_list[1:6]}
+        return Response(data, status=status.HTTP_200_OK)
+
+
+class ChatMensaje(APIView):
+    def get(self, request):
+        return Response({}, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        prompt = 'Eres un médico general profesional. Te daré un listado de posibles enfermedades que le diste a uno de tus pacientes, basándote en una ficha médica del mismo que también te entregaré. '
+        prompt += 'Tu tarea es, dada la lista de posibles patologías, responder la siguiente duda de tu paciente: "'
+        prompt += request.data['message']
+        prompt += '". El listado es el siguiente: '
+        prompt += '. '.join(request.data['prediction'])
+        prompt += '. La ficha médica es la siguiente: '
+        prompt += generar_ficha_medica(
+            request.data['medicalData'], generarParteInicial=False)
+        response = request_openai(prompt)
+        if 'errorCode' in response.keys():
+            return Response(response, status=response['errorStatus'])
+        data = {'response': response['response']}
         return Response(data, status=status.HTTP_200_OK)
