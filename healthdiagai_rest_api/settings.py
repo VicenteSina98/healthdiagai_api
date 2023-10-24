@@ -39,10 +39,10 @@ HOST_API = os.getenv('HOST_API')
 
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', HOST_API]
-# CSRF_TRUSTED_ORIGINS = [HOST_API]
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1', 'http://localhost', os.getenv('HOST_FRONT'), HOST_API]
 # CORS_ORIGIN_WHITELIST = [HOST_API]
 # CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOWED_ORIGINS = ['127.0.0.1', 'localhost', os.getenv('HOST_FRONT'), HOST_API]
+CORS_ALLOWED_ORIGINS = ['http://127.0.0.1', 'http://localhost', os.getenv('HOST_FRONT'), HOST_API]
 
 
 # Application definition
@@ -183,6 +183,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'public/static')]
+MEDIA_ROOT = os.path.join(BASE_DIR, 'public/static')
+MEDIA_URL = '/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

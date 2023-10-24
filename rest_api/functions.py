@@ -2,9 +2,13 @@ from rest_framework import status
 from dotenv import load_dotenv
 import os
 import openai
-import pprint
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
+from io import BytesIO
+from django.template.loader import get_template
+import uuid
+from django.conf import settings
+import xhtml2pdf.pisa as pisa
 
 load_dotenv()
 openai.api_key = os.getenv('OPENAI_API_KEY')
@@ -238,3 +242,19 @@ def clean_prediction(prediction):
     split_prediction = split_prediction[1:6]
     remake_prediction = [pred.split(':')[0] for pred in split_prediction]
     return remake_prediction
+
+
+def save_pdf(params: dict):
+    template = get_template('prediction.html')
+    html = template.render(params)
+    response = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode('UTF-8')), response)
+    filename = uuid.uuid4()
+    try:
+        with open(str(settings.BASE_DIR) + f'/public/static/{filename}.pdf', 'wb+') as output:
+            pdf = pisa.pisaDocument(BytesIO(html.encode('UTF-8')), output)
+    except Exception as e:
+        print(e)
+    if pdf.err:
+        return '', False
+    return filename, True

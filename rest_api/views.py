@@ -9,7 +9,7 @@ from rest_framework.permissions import AllowAny
 from .functions import *
 from .serializers import UsuarioSerializer, AntecedentesMedicosSerializer, MyTokenObtainPairSerializer, PrediccionSerializer, MensajeSerializer
 from .models import Usuario, AntecedentesMedicos, Prediccion, Mensaje
-import pprint
+from datetime import datetime
 
 
 @api_view(['GET'])
@@ -260,3 +260,18 @@ class ChatMensaje(APIView):
             return Response(response, status=response['errorStatus'])
         data = {'response': response['response']}
         return Response(data, status=status.HTTP_200_OK)
+
+
+class GeneratePDF(APIView):
+    def get(self, request, id_prediccion):
+        prediction = Prediccion.objects.get(id=id_prediccion)
+        messages = Mensaje.objects.filter(prediccion=id_prediccion)
+        params = {
+            'today': datetime.now(),
+            'prediction': prediction,
+            'messages': messages,
+        }
+        file_name, status = save_pdf(params)
+        if not status:
+            return Response({'status': 400})
+        return Response({'status': 200, 'path': f'/media/{file_name}.pdf'})
