@@ -1,17 +1,23 @@
-from rest_framework import status
-from dotenv import load_dotenv
+# librerias
 import os
-import openai
+from io import BytesIO
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-from io import BytesIO
-from django.template.loader import get_template
+from dotenv import load_dotenv
+import openai
 import uuid
-from django.conf import settings
 import xhtml2pdf.pisa as pisa
+# modulos de django
+from django.conf import settings
+from django.template.loader import get_template
+# modulos de rest_framework
+from rest_framework import status
 
+# API Key OpenAI
 load_dotenv()
 openai.api_key = os.getenv('OPENAI_API_KEY')
+
+# funciones
 
 
 def generar_parte_inicial() -> str:
@@ -245,7 +251,7 @@ def clean_prediction(prediction):
 
 
 def save_pdf(params: dict):
-    template = get_template('prediction.html')
+    template = get_template('chat.html')
     html = template.render(params)
     response = BytesIO()
     pdf = pisa.pisaDocument(BytesIO(html.encode('UTF-8')), response)

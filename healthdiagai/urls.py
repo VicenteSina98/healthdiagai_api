@@ -1,12 +1,16 @@
+# modulos de django
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+# vistas
+from .views import getRoutes
 
 urlpatterns = [
     path('admin', admin.site.urls),
-    path('', include('rest_api.urls')),
+    path('help', getRoutes),
+    path('', include('api.urls')),
 ]
 
 if settings.DEBUG:
