@@ -1,8 +1,8 @@
+# modulos de django
 from django.db import models
 from django.contrib.auth.models import User
-from datetime import datetime
 
-# Create your models here.
+# Modelos
 
 
 class Usuario(models.Model):
@@ -35,16 +35,3 @@ class AntecedentesMedicos(models.Model):
         max_length=250, null=True, blank=True, default="")
     usuario = models.OneToOneField(
         Usuario, on_delete=models.CASCADE, primary_key=True)
-
-
-class Prediccion(models.Model):
-    usuario = models.ForeignKey(
-        Usuario, on_delete=models.CASCADE, default=None)
-    nombre = models.CharField(max_length=100, null=False, blank=True)
-    creado_el = models.DateTimeField(auto_now_add=True)
-
-
-class Mensaje(models.Model):
-    prediccion = models.ForeignKey(Prediccion, on_delete=models.CASCADE)
-    enviado_por_bot = models.BooleanField(null=False)
-    texto = models.TextField(null=False, blank=True)
