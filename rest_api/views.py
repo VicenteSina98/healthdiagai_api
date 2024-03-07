@@ -10,6 +10,7 @@ from .functions import *
 from .serializers import UsuarioSerializer, AntecedentesMedicosSerializer, MyTokenObtainPairSerializer, PrediccionSerializer, MensajeSerializer
 from .models import Usuario, AntecedentesMedicos, Prediccion, Mensaje
 from datetime import datetime
+from pprint import pprint
 
 
 @api_view(['GET'])
@@ -236,6 +237,7 @@ class GenerarPrediccion(APIView):
         prediccion = request_openai(ficha_medica)
         # error en la generacion del prediccion
         if 'errorCode' in prediccion.keys():
+            pprint(prediccion)
             return Response(prediccion, status=prediccion['errorStatus'])
         # prediccion OK
         data = {'response': prediccion['response']}

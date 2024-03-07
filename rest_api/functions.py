@@ -1,6 +1,7 @@
 from rest_framework import status
 from dotenv import load_dotenv
 import os
+from openai import OpenAI
 import openai
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
@@ -11,7 +12,7 @@ from django.conf import settings
 import xhtml2pdf.pisa as pisa
 
 load_dotenv()
-openai.api_key = os.getenv('OPENAI_API_KEY')
+openapi_key = os.getenv('OPENAI_API_KEY')
 
 
 def generar_parte_inicial() -> str:
@@ -219,20 +220,53 @@ def request_openai(prompt: str) -> dict:
     """
     try:
         # generar prediccion
-        response = openai.ChatCompletion.create(
+        client = OpenAI(api_key=openapi_key)
+        completion = client.chat.completions.create(
             model='gpt-3.5-turbo',
-            messages=[
-                {'role': 'user', 'content': prompt}
-            ],
-            temperature=0
+            messages=[{'role': 'user', 'content': prompt}]
         )
         # extraer response
         data = {
-            'response': response['choices'][0]['message']['content']}
+            'response': completion.choices[0].message.content}
         return data
-    except Exception as e:
-        data = {'errorCode': 503,
-                'errorStatus': status.HTTP_503_SERVICE_UNAVAILABLE,
+    except openai.BadRequestError as e:
+        data = {'errorCode': 400,
+                'errorStatus': status.HTTP_400_BAD_REQUEST,
+                'data': e.__dict__}
+        return data
+    except openai.AuthenticationError as e:
+        data = {'errorCode': 401,
+                'errorStatus': status.HTTP_401_UNAUTHORIZED,
+                'data': e.__dict__}
+        return data
+    except openai.PermissionDeniedError as e:
+        data = {'errorCode': 403,
+                'errorStatus': status.HTTP_403_FORBIDDEN,
+                'data': e.__dict__}
+        return data
+    except openai.NotFoundError as e:
+        data = {'errorCode': 404,
+                'errorStatus': status.HTTP_404_NOT_FOUND,
+                'data': e.__dict__}
+        return data
+    except openai.UnprocessableEntityError as e:
+        data = {'errorCode': 422,
+                'errorStatus': status.HTTP_422_UNPROCESSABLE_ENTITY,
+                'data': e.__dict__}
+        return data
+    except openai.RateLimitError as e:
+        data = {'errorCode': 401,
+                'errorStatus': status.HTTP_429,
+                'data': e.__dict__}
+        return data
+    except openai.InternalServerError as e:
+        data = {'errorCode': 500,
+                'errorStatus': status.HTTP_500_INTERNAL_SERVER_ERROR,
+                'data': e.__dict__}
+        return data
+    except openai.APIConnectionError as e:
+        data = {'errorCode': 401,
+                'errorStatus': status.HTTP_500_INTERNAL_SERVER_ERROR,
                 'data': e.__dict__}
         return data
 
