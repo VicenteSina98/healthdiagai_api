@@ -4,3 +4,4 @@
 **/migrations
 health
 public/static/**/*
+env/**/*
