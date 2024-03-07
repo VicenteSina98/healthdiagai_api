@@ -24,5 +24,5 @@ urlpatterns = [
     path('prediccion/<int:id_usuario>', PrediccionDetail.as_view()),
     path('chat/mensaje', ChatMensaje.as_view()),
     path('pdf/<int:id_prediccion>', GeneratePDF.as_view()),
-    path('', getRoutes)
+    path('index', getRoutes)
 ]
