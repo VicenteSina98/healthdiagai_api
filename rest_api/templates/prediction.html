@@ -50,8 +50,8 @@
     </style>
   </head>
   <body>
-    <h1>{{chat.nombre}}</h1>
-    <h2>Chat realizado el día: {{chat.creado_el}}</h2>
+    <h1>{{prediction.nombre}}</h1>
+    <h2>Chat realizado el día: {{prediction.creado_el}}</h2>
     <div class="container">
       {% for msg in messages %} {% if msg.enviado_por_bot %}
       <div class="IA-msg"><p class="IA-p">{{msg.texto}}</p></div>
