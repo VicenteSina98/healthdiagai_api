@@ -6,7 +6,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     path('admin', admin.site.urls),
-    path('', include('rest_api.urls')),
+    path('api/', include('rest_api.urls')),
 ]
 
 if settings.DEBUG:
